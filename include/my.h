@@ -53,8 +53,8 @@
     int my_str_isprintable(char const *str);
     int my_showstr(char const *str);
     int my_showmem(char const *str, int size);
-    char *my_strcat(char *dest, char const *src);
-    char *my_freed_strcat(char *dest, char const *src);
+    char *alloc_concat(char *dest, char const *src);
+    char *freed_concat(char *dest, char const *src);
     char *my_strncat(char *dest, char const *src, int nb);
     int count_char(char *separator, char *str);
     int count_words(char *separator, char *str);

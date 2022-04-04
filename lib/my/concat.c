@@ -8,7 +8,7 @@
 #include "../../include/my.h"
 #include <stdlib.h>
 
-char *my_strcat(char *dest, char const *src)
+char *alloc_concat(char *dest, char const *src)
 {
     int total_len = my_strlen(dest) + my_strlen(src);
     char *nstr = malloc(sizeof(char) * (total_len + 1));
@@ -29,7 +29,7 @@ char *my_strcat(char *dest, char const *src)
     return nstr;
 }
 
-char *my_freed_strcat(char *dest, char const *src)
+char *freed_concat(char *dest, char const *src)
 {
     int total_len = my_strlen(dest) + my_strlen(src);
     char *nstr = malloc(sizeof(char) * (total_len + 1));

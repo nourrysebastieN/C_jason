@@ -1,51 +1,50 @@
 ##
 ## EPITECH PROJECT, 2021
-## my_defender
+## Makefile
 ## File description:
-## Building my_defender
+## compiling libmy.a
 ##
 
-SRC = $(wildcard ./*.c \
-				./src/*.c \
-				./pslib/*.c \
-				./src/hero/*.c \
-				./pslib/spritesheet/*.c \
-				./pslib/assetmanager/*.c \
-				./pslib/map/*.c \
-				./pslib/black_fades/*.c \
-				./pslib/ui/*.c \
-				./pslib/sprite/*.c \
-				./pslib/ui/boxui/*.c \
-				./pslib/ui/buttonui/*.c \
-				./pslib/ui/iconui/*.c \
-				./src/gamestate/*.c \
-				./src/perspectivetexture/*.c \
-				./src/monsters/*.c)
+CC = gcc
 
-OBJ = $(SRC:.c=.o)
+SRC = src/utils/get_jason.c \
+	  src/utils/skip_whitespace.c
 
-IFLAGS = -I./include -I./powerstrike -L./pslib -L./lib/my
+OBJ	=	$(SRC:.c=.o)
 
-LFLAGS = -lmy -lcsfml-graphics -lcsfml-audio -lcsfml-system -lcsfml-window -lm
+SRC_TEST = $(wildcard tests/*.c) \
+		   $(wildcard src/*.c) \
+		   $(wildcard lib/my/*.c)
 
-CFLAGS = -I./include -I./powerstrike -W -Wextra -Wall -Werror -O3 -g3
+OBJ_TEST = $(SRC_TEST:.c=.o)
 
-NAME = jason
+CFLAGS = -I./include -W -Werror -Wall -Wextra -g3
 
-$(NAME):
-	make -C lib/my
-	gcc -o $(NAME) $(SRC) $(CFLAGS) $(IFLAGS) $(LFLAGS)
+LIBFLAG = -L./lib/my -lmy
 
-all:	 $(NAME)
+NAME = example
+
+all: $(NAME)
+
+tests_run: libmy.a $(OBJ_TEST)
+	gcc -o unit_tests $(OBJ_TEST) $(LDFLAGS) --coverage -lcriterion
+	./unit_tests
+
+$(NAME): libmy.a $(OBJ)
+		gcc -o $(NAME) $(CFLAGS) ./main.c $(OBJ) $(LIBFLAG)
+
+libmy.a:
+	make -C ./lib/my/
+
+re: fclean all
 
 clean:
-	make clean -C lib/my
-	rm -f $(OBJ)
+	rm -f *.o ./src/*.o ./tests/*.o
+	make -C ./lib/my/ fclean
 
 fclean: clean
-	make fclean -C lib/my
-	rm -f $(NAME)
+	rm -f ./$(NAME) $(NAME)
+	make -C ./lib/my/ fclean
 
-re: 	fclean all
-
-.PHONY: all clean fclean re
+fclean_test: clean
+	rm -f unit_tests $(OBJ_TEST)
