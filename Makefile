@@ -8,7 +8,7 @@
 CC = gcc
 
 SRC = src/utils/get_jason.c \
-	  src/utils/skip_whitespace.c
+	  src/utils/skip_whitespace.c \
 
 OBJ	=	$(SRC:.c=.o)
 
@@ -22,7 +22,7 @@ CFLAGS = -I./include -W -Werror -Wall -Wextra -g3
 
 LIBFLAG = -L./lib/my -lmy
 
-NAME = example
+NAME = jason
 
 all: $(NAME)
 
@@ -39,7 +39,7 @@ libmy.a:
 re: fclean all
 
 clean:
-	rm -f *.o ./src/*.o ./tests/*.o
+	rm -f $(OBJ)
 	make -C ./lib/my/ fclean
 
 fclean: clean
